@@ -214,7 +214,6 @@ const slideCaption = document.getElementById('slideCaption');
 const slideCount = document.getElementById('slideCount');
 let currentMemory = 0, memoryTimer;
 
-/* Good Memories now hands off to the DARLING scene instead of straight to blurry */
 function finishGoodMemories(){
   song.pause();
   song.currentTime = 0;
@@ -258,7 +257,7 @@ function renderMemory(index){
 document.getElementById('previous').addEventListener('click', () => renderMemory(currentMemory - 1));
 document.getElementById('following').addEventListener('click', () => renderMemory(currentMemory + 1));
 
-/* ---------- 7B. DARLING SPECIAL (new) ---------- */
+/* ---------- 7B. DARLING SPECIAL ---------- */
 document.getElementById('toBlurry').addEventListener('click', () => {
   darlingAudio.pause();
   darlingAudio.currentTime = 0;
@@ -270,7 +269,7 @@ const blurryItems = [
   {type:'image', media:'images/blurry01.jpeg'},
   {type:'image', media:'images/blurry02.jpeg'},
   {type:'image', media:'images/blurry03.jpeg'},
-  {type:'image', media:'images/blurry04.jpeg'},
+  {type:'image', media:'images/blurry04.jpeg.jpeg'},
   {type:'video', media:'videos/blurry05.mp4', audio:'audio/bihari05.mp3'},
   {type:'image', media:'images/blurry06.jpeg', audio:'audio/fineshit06.mpeg'}
 ];
@@ -331,7 +330,6 @@ blurryItems.forEach((item, index) => {
 blurryClose.addEventListener('click', closeBlurryViewer);
 blurryViewer.addEventListener('click', event => { if(event.target === blurryViewer) closeBlurryViewer(); });
 
-/* Blurry NEXT now hands off to the LOVERBOY scene instead of straight to cinematic */
 blurryNext.addEventListener('click', () => {
   closeBlurryViewer();
   show('loverboyScene');
@@ -339,7 +337,7 @@ blurryNext.addEventListener('click', () => {
   loverboyAudio.play().catch(() => {});
 });
 
-/* ---------- 8B. LOVERBOY SPECIAL (new) ---------- */
+/* ---------- 8B. LOVERBOY SPECIAL ---------- */
 document.getElementById('toCinematic').addEventListener('click', () => {
   loverboyAudio.pause();
   loverboyAudio.currentTime = 0;
@@ -393,6 +391,13 @@ carVideo2.addEventListener('ended', () => {
 document.getElementById('restartButton').addEventListener('click', () => {
   stopAllAudio();
 
+  cinematicStarted = false;
+  car02PlayCount = 0;
+  carVideo1.style.display = 'block';
+  carVideo1.hidden = false;
+  carVideo2.hidden = true;
+  carVideo2.style.display = 'none';
+
   escapes = 0;
   yes.style.transform = '';
   no.classList.remove('red');
@@ -406,28 +411,13 @@ document.getElementById('restartButton').addEventListener('click', () => {
   document.querySelectorAll('#double .double').forEach(b => b.classList.remove('right', 'wrong'));
 
   dragging = false; pullComplete = false; autoRevealing = false; lastDragProgress = 0;
-  pullPhoto.style.transition = 'none';
-  pullPhoto.style.transform = 'translateY(105%)';
-  handle.style.transform = 'translateX(-50%)';
-  handle.style.opacity = '1';
-  handle.style.pointerEvents = 'auto';
+  resetPull();
   pullNote.style.opacity = '1';
   pullNote.textContent = 'Drag upwards';
-
-  currentMemory = 0;
+  handle.style.opacity = '1';
+  handle.style.pointerEvents = 'auto';
 
   closeBlurryViewer();
 
-  cinematicStarted = false;
-  car02PlayCount = 0;
-  carVideo1.style.display = 'block';
-  carVideo1.hidden = false;
-  carVideo1.currentTime = 0;
-  carVideo2.hidden = true;
-  carVideo2.style.display = 'none';
-  carVideo2.currentTime = 0;
-
   show('opening');
 });
-
-show('opening');
